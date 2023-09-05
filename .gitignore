@@ -16,3 +16,5 @@ mkfs/mkfs
 .vscode
 .gdb_history
 .idea
+submission.patch
+submission.zip

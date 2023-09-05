@@ -141,8 +141,8 @@ UPROGS=\
 	$U/_wc\
 	$U/_zombie\
 
-fs.img: mkfs/mkfs README.md $(UPROGS)
-	./mkfs/mkfs fs.img README.md $(UPROGS)
+fs.img: mkfs/mkfs README.md extreme.txt long.txt simple.txt $(UPROGS)
+	./mkfs/mkfs fs.img README.md extreme.txt long.txt simple.txt $(UPROGS)
 
 xv6.img: $K/bootblock $K/kernel fs.img
 	dd if=$K/bootblock of=xv6.img
@@ -195,3 +195,15 @@ launch.json: launch.json.tmpl
 	if [ -f .gdbinit ]; then rm .gdbinit; fi
 	sed -i "s/^source/# source/" ~/.gdbinit
 	sed "s/localhost:1234/localhost:$(GDBPORT)/" < $^ > .vscode/$@
+
+.PHONY: submission
+submission:
+	@if [ ! -z "$$(git status --porcelain)" ]; \
+		then \
+			echo 'Uncommitted work found. Did you forget to run `anubis autosave`?'; \
+			git status --porcelain; \
+			exit; \
+		else \
+			git diff $$(git rev-list --max-parents=0 HEAD) > submission.patch; \
+			zip submission.zip submission.patch; \
+	fi
