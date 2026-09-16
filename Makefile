@@ -140,7 +140,6 @@ UPROGS=\
 	$U/_usertests\
 	$U/_wc\
 	$U/_zombie\
-	$U/_sed\
 
 fs.img: mkfs/mkfs README.md *.txt $(UPROGS)
 	./mkfs/mkfs fs.img README.md *.txt $(UPROGS)
